@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSDictionary *meta;
 @property (nonatomic, strong) NSDictionary *linked;
+@property (nonatomic, strong) NSDictionary *links;
 @property (nonatomic, strong) NSError *error;
 
 + (id)JSONAPIWithString:(NSString*)string;

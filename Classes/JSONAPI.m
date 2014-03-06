@@ -130,6 +130,27 @@
         
     }
     
+    //Link mapping / types
+    _links = [dictionary objectForKey:@"links"];
+    if (![_links isKindOfClass:[NSDictionary class]]) {
+        _links = nil;
+    }
+    
+    if (_links) {
+        for (NSString *key in _links) {
+            
+            NSDictionary *mapping = [_links objectForKey:key];
+            
+            if ([mapping isKindOfClass:[NSDictionary class]]) {
+                
+                NSString *type = [mapping objectForKey:@"type"];
+                NSString *strippedKey = [[key componentsSeparatedByString:@"."] lastObject];
+                
+                [JSONAPIResourceLinker link:strippedKey toLinkedType:type];
+            }
+        }
+    }
+    
     _linked = creatingLinked;
 }
 
