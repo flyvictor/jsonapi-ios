@@ -313,4 +313,27 @@
     XCTAssertEqualObjects(postResource.author.name, [linkedAuthor9 objectForKey:@"name"], @"Author name is not equal to %@", [post objectForKey:@"name"]);
 }
 
+- (void)testLinksCustomTypes {
+    
+    NSDictionary *json = @{ @"posts" : @[@{ @"id" : @"1",
+                                            @"name" : @"Test Post",
+                                            @"links" : @{ @"tags" : @[@"t1", @"t1"] }
+                                        }],
+                            @"linked" : @{ @"categories" : @[@{ @"id" : @"t1",
+                                                                @"name" : @"Test1"
+                                                                },
+                                                             @{ @"id" : @"t2",
+                                                                @"name" : @"Test2" }]},
+                            @"links" : @{ @"posts.tags" : @{ @"type" : @"categories" }}
+                            };
+    
+    JSONAPI *api = [JSONAPI JSONAPIWithDictionary:json];
+    
+    NSArray *posts = [api resourcesForKey:@"posts"];
+    JSONAPIResource *post = [posts firstObject];
+    
+    NSArray *tags = [post linkedResourceForKey:@"tags"];
+    XCTAssert([tags count] == 2, @"Post should have two tags");
+}
+
 @end
