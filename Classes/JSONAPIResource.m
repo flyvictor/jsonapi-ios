@@ -81,6 +81,11 @@
 }
 
 - (void)setWithDictionary:(NSDictionary*)dict {
+    if (![dict isKindOfClass:[NSDictionary class]]) {
+        NSLog(@"Invalid dictionary class: %@", NSStringFromClass([dict class]));
+        return;
+    }
+    
     self.__dictionary = dict;
     
     // Loops through all keys to map to propertiess
